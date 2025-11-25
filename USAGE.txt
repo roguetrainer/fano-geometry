@@ -1,0 +1,259 @@
+FANO GEOMETRY MODULE 1 - USAGE GUIDE
+=====================================
+
+AFTER UNZIPPING
+---------------
+
+1. Navigate to the directory:
+   cd fano-geometry-module1
+
+2. Install dependencies:
+   pip install -r requirements.txt
+
+   OR install as a package:
+   pip install -e .
+
+
+WAYS TO USE THE CODE
+--------------------
+
+METHOD 1: Run the demo scripts
+-------------------------------
+cd src
+python fano_geometry.py        # See structure and verify axioms
+python fano_visualization.py   # Generate visualization images
+
+
+METHOD 2: Interactive Python
+-----------------------------
+cd src
+python
+
+>>> from fano_geometry import FanoPlane, verify_axioms
+>>> from fano_visualization import FanoVisualizer
+>>> 
+>>> # Create Fano plane
+>>> fano = FanoPlane()
+>>> 
+>>> # Basic queries
+>>> fano.line_through_points(0, 1)  # Returns: 0
+>>> fano.intersection(0, 1)          # Returns: 1
+>>> fano.is_collinear(0, 1, 3)      # Returns: True
+>>> 
+>>> # Visualize
+>>> import matplotlib.pyplot as plt
+>>> viz = FanoVisualizer(fano)
+>>> viz.plot_standard()
+>>> plt.show()
+>>> 
+>>> # Verify axioms
+>>> verify_axioms(fano)
+
+
+METHOD 3: Jupyter Notebook (RECOMMENDED!)
+------------------------------------------
+cd notebooks
+jupyter notebook 01_basic_fano.ipynb
+
+This opens an interactive tutorial that walks you through:
+- Fano plane construction
+- Axiom verification
+- Multiple visualizations
+- Structural exploration
+- Symmetry analysis
+- Connection to coding theory
+
+
+METHOD 4: Run tests
+--------------------
+cd tests
+python test_fano.py
+
+All tests should pass with green checkmarks!
+
+
+METHOD 5: As a Python package
+------------------------------
+After installing with: pip install -e .
+
+You can use it anywhere:
+
+python
+>>> from fano_geometry import FanoPlane
+>>> from fano_visualization import FanoVisualizer
+>>> # Use the code!
+
+
+DOCUMENTATION
+-------------
+- README.md (in root)     - Quick overview
+- docs/README.md          - Comprehensive documentation
+- docs/QUICKSTART.md      - Fast start with examples
+- docs/ROADMAP.md         - Full 7-module series plan
+
+
+VISUALIZATIONS
+--------------
+Pre-generated images in visualizations/:
+- fano_standard.png       - Classic triangle + circle
+- fano_representations.png - Four different layouts
+- fano_incidence.png      - Incidence matrix heatmap
+
+Run fano_visualization.py to regenerate these.
+
+
+DIRECTORY STRUCTURE
+-------------------
+fano-geometry-module1/
+├── README.md              # Quick start
+├── requirements.txt       # Dependencies
+├── setup.py              # Package installer
+├── .gitignore            # Git ignore file
+├── USAGE.txt             # This file!
+│
+├── src/                  # Source code
+│   ├── __init__.py
+│   ├── fano_geometry.py
+│   └── fano_visualization.py
+│
+├── notebooks/            # Interactive tutorials
+│   └── 01_basic_fano.ipynb
+│
+├── tests/               # Test suites
+│   └── test_fano.py
+│
+├── visualizations/      # Generated images
+│   ├── fano_standard.png
+│   ├── fano_representations.png
+│   └── fano_incidence.png
+│
+└── docs/                # Documentation
+    ├── README.md
+    ├── QUICKSTART.md
+    └── ROADMAP.md
+
+
+QUICK EXAMPLES
+--------------
+
+Example 1: Find line through two points
+----------------------------------------
+from fano_geometry import FanoPlane
+fano = FanoPlane()
+line = fano.line_through_points(2, 5)
+print(f"Line through 2 and 5: {line}")
+print(f"Points on line: {sorted(fano.points_on_line(line))}")
+
+
+Example 2: Check collinearity
+------------------------------
+from fano_geometry import FanoPlane
+fano = FanoPlane()
+print(f"0,1,3 collinear? {fano.is_collinear(0,1,3)}")  # True
+print(f"0,1,2 collinear? {fano.is_collinear(0,1,2)}")  # False
+
+
+Example 3: Visualize
+--------------------
+from fano_geometry import FanoPlane
+from fano_visualization import FanoVisualizer
+import matplotlib.pyplot as plt
+
+fano = FanoPlane()
+viz = FanoVisualizer(fano)
+
+# Show all representations
+viz.plot_all_representations()
+plt.show()
+
+
+Example 4: Incidence matrix
+----------------------------
+from fano_geometry import FanoPlane
+fano = FanoPlane()
+M = fano.incidence_matrix()
+print("Incidence matrix:")
+print(M)
+print(f"\nEach point on {M.sum(axis=1)[0]} lines")
+print(f"Each line has {M.sum(axis=0)[0]} points")
+
+
+Example 5: Cyclic symmetries
+-----------------------------
+from fano_geometry import FanoPlane
+fano = FanoPlane()
+
+# Rotate by 3 (mod 7)
+auto = fano.automorphism_cyclic(3)
+print(f"Point 0 maps to: {auto[0]}")
+print(f"Point 1 maps to: {auto[1]}")
+print(f"Automorphism: {auto}")
+
+
+TROUBLESHOOTING
+---------------
+
+"No module named 'fano_geometry'":
+  - Make sure you're in the src/ directory, OR
+  - Install the package: pip install -e . (from root), OR
+  - Add to Python path: sys.path.insert(0, 'path/to/src')
+
+"ModuleNotFoundError: No module named 'numpy'":
+  - Install dependencies: pip install -r requirements.txt
+
+Jupyter notebook won't open:
+  - Install jupyter: pip install jupyter
+  - Or: pip install -r requirements.txt
+
+Tests fail:
+  - Check that you're in tests/ directory when running
+  - Ensure all dependencies installed
+
+
+LEARNING PATH
+-------------
+
+Beginner:
+1. Read README.md (in root directory)
+2. Run python src/fano_geometry.py
+3. Open docs/QUICKSTART.md
+4. Work through notebooks/01_basic_fano.ipynb
+
+Intermediate:
+1. Explore the code in src/
+2. Run tests to understand the API
+3. Try the quick examples above
+4. Read docs/README.md for deep dive
+
+Advanced:
+1. Read docs/ROADMAP.md for the bigger picture
+2. Modify the code for your own explorations
+3. Build toward Modules 2-7
+4. Connect to Hamming and Steane codes
+
+
+WHAT'S NEXT?
+------------
+
+This is Module 1 of a 7-module series leading to quantum 
+error correction codes. See docs/ROADMAP.md for the full plan:
+
+Module 1: Basic Fano Plane (✓ YOU ARE HERE!)
+Module 2: Incidence Structures & Heawood Graph
+Module 3: Symmetries (PSL(2,7))
+Module 4: Heawood Graph Deep Dive
+Module 5: Games & Applications
+Module 6: Binary Codes & Duality
+Module 7: Bridge to Hamming & Steane
+
+
+GETTING HELP
+------------
+
+1. docs/QUICKSTART.md - Quick examples
+2. docs/README.md - Full documentation
+3. notebooks/01_basic_fano.ipynb - Interactive learning
+4. test_fano.py - Shows all functionality
+
+
+Enjoy exploring the beautiful Fano plane geometry!
